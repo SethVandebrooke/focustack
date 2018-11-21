@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+
+	<style>
+		.trackplayer {
+			opacity: 1;
+			transition: .7s;
+		}
+		.trackplayer:hover {
+			opacity: .6;
+			cursor: pointer;
+			box-shadow: 3px 0px 5px black;
+		}
+		.playing {
+			opacity: .8;
+			box-shadow: inset -6px 0 8px -4px black;
+		}
+		.tracktitle {
+			font-size: 15pt;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col py-4">
+				<h1 class="text-center">FocuStack</h1>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" bind="tracks:innerHTML">
+		<div class="row track">
+			<div class="trackplayer col-2 py-4 bg-success text-white text-center" data-sound="${value}"><span class="trackplayer_icon"><i class="fa fa-play fa-2x" aria-hidden="true"></i>
+</span></div>
+			<div class="tracktitle col-8 py-4 text-capitalize border border-right-0 border-left-0">${value}</div>
+			<div class="trackoptions col py-4 border border-right-0 border-left-0"></div>
+		</div>
+	</div>
+	<script src="wieldy.js"></script>
+	<script src="audio.js"></script>
+	<script>
+		sounds = {
+		  birds: "birds-bees.mp3",
+		  fan: "fan.mp3",
+		  fireplace: "fireplace.mp3",
+		  rain: "light-rain.wav",
+		  night: "night-sounds.mp3",
+		  water: "stream.wav"
+		};
+		var $app = new WieldyScope(document.body);
+		$app.tracks(["birds","fan","fireplace","rain","night","water"]);
+		var $audio = new AudioGallery(sounds, "./audio/");
+
+		$(".trackplayer").click(function(){
+			var icon = $(this).find(".fa");
+			icon.toggleClass("fa-play");
+			icon.toggleClass("fa-pause");
+			$(this).toggleClass("playing")
+			$audio.toggleSeamlessLoop($(this).attr("data-sound"), 2);
+		})
+	</script>
+</body>
+</html>
