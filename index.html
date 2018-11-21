@@ -41,17 +41,19 @@
 		</div>
 	</div>
 	<div class="container-fluid" bind="tracks:innerHTML">
-		<div class="row track">
+		<div class="row track" data-sound="${value}">
 			<div class="trackplayer col-3 py-4 bg-success text-white text-center" data-sound="${value}"><span class="trackplayer_icon"><i class="fa fa-play fa-2x" aria-hidden="true"></i>
 </span></div>
-			<div class="tracktitle col-6 py-4 text-capitalize border border-right-0 border-left-0">${value}</div>
-			<div class="trackoptions col py-4 border border-right-0 border-left-0"></div>
+			<div class="tracktitle col-7 py-4 text-capitalize border border-right-0 border-left-0">${value}</div>
+			<div class="trackoptions col py-4 border border-right-0 border-left-0" style="cursor:pointer;">
+				<i class="fa fa-trash fa-2x" aria-hidden="true" style="color:#aaa;"></i>
+			</div>
 		</div>
 	</div>
 	<script src="wieldy.js"></script>
 	<script src="audio.js"></script>
 	<script>
-		sounds = {
+		var sounds = {
 		  birds: "birds-bees.mp3",
 		  fan: "fan.mp3",
 		  fireplace: "fireplace.mp3",
@@ -60,7 +62,7 @@
 		  water: "stream.wav"
 		};
 		var $app = new WieldyScope(document.body);
-		$app.tracks(["birds","fan","fireplace","rain","night","water"]);
+		$app.tracks(["fireplace","rain","night","water","birds","fan"]);
 		var $audio = new AudioGallery(sounds, "./audio/");
 
 		$(".trackplayer").click(function(){
@@ -69,7 +71,12 @@
 			icon.toggleClass("fa-pause");
 			$(this).toggleClass("playing")
 			$audio.toggleSeamlessLoop($(this).attr("data-sound"), 2);
-		})
+		});
+
+		$(".trackoptions").click(function(){
+			$audio.stop($(this).closest(".track").attr("data-sound"));
+			$(this).closest(".track").remove();
+		});
 	</script>
 </body>
 </html>
